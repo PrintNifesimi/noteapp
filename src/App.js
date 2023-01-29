@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import AddNote from "./addNote";
+import "./App.css";
+import NotesDisplay from "./NotesDisplay";
+import SearchBar from "./SearchBar";
 
 function App() {
+  const [filters, setFilters] = useState({});
+  const [data, setData] = useState({ Notes: [] });
+
+  const updateFilters = (searchParams) => {
+    setFilters(searchParams);
+  };
+
+  const addNoteToData = (note) => {
+    let notes = data["Notes"];
+    note.id = notes.length + 1;
+    notes.push(note);
+    setData({ Notes: notes });
+    console.log(data);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className="row mt-3">
+        <SearchBar updateSearchParams={updateFilters} />
+      </div>
+
+      <div className="row mt-3">
+        <AddNote addNote={addNoteToData} />
+      </div>
+      <div className="row mt-3">
+        <NotesDisplay notes={data["Notes"]} />
+      </div>
     </div>
   );
 }
