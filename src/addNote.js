@@ -5,14 +5,16 @@ function AddNote(props) {
   const [type, setType] = useState("");
   const date = new Date();
   const today =
-    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate();
   const [note, setNote] = useState("");
+  const [keyword, setKeyword] = useState("");
 
   const addNoteButtonPressed = () => {
     props.addNote({
       name: name,
       type: type,
       date: today,
+      keyword: keyword,
       note: note,
     });
     setName("");
@@ -61,7 +63,12 @@ function AddNote(props) {
           id="note-field"
           type="text"
           value={note}
-          onChange={(e) => setNote(e.target.value)}
+          onChange={(e) => {
+            let note = e.target.value;
+            let arr = note.split(" ");
+            setKeyword(arr);
+            setNote(note);
+          }}
         ></textarea>
       </div>
       <div className="row mt-3">

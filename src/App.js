@@ -17,7 +17,39 @@ function App() {
     note.id = notes.length + 1;
     notes.push(note);
     setData({ Notes: notes });
-    console.log(data);
+  };
+  const keywordProcess = (filterKeyword, itemKeywords) => {
+    for (const keyword of itemKeywords) {
+      if (keyword === filterKeyword) {
+        return true;
+      }
+    }
+    return false;
+  };
+  const filterData = (data) => {
+    const filteredData = [];
+    if (!filters.name) {
+      return data;
+    }
+    console.log(data.length);
+    for (const item of data) {
+      if (filters.name !== "" && item.name !== filters.name) {
+        continue;
+      }
+      if (filters.type !== "Select" && filters.type !== item.type) {
+        continue;
+      }
+      if (filters.date !== "" && filters.date !== item.date) {
+        continue;
+      }
+      /* if (keywordProcess(filters.keyword, item.keyword)) {
+        continue;
+      }*/
+
+      filteredData.push(item);
+    }
+
+    return filteredData;
   };
   return (
     <div className="container">
@@ -29,7 +61,7 @@ function App() {
         <AddNote addNote={addNoteToData} />
       </div>
       <div className="row mt-3">
-        <NotesDisplay notes={data["Notes"]} />
+        <NotesDisplay notes={filterData(data["Notes"])} />
       </div>
     </div>
   );
